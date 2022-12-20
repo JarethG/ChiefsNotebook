@@ -6,6 +6,13 @@ export const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    header: {
+        fontSize: 24,
+        fontWeight: "bold"
+    },
+    recipe_steps: {
+        padding:5,
+    },
     mealCard: {
         margin: 10,
         backgroundColor: "white",

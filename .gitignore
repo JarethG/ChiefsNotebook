@@ -10,5 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 
+Recipes/
+
 # macOS
 .DS_Store
