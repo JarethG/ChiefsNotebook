@@ -6,7 +6,9 @@ import {Ionicons} from "@expo/vector-icons";
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Recipes from "./Recipes/recipes.json"
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+
+const MealPlanContext = React.createContext([]);
 
 function History() {
     return (
@@ -18,7 +20,7 @@ function History() {
 
 function MealPlan() {
 
-    const [meals, setMeals] = useState([])
+    const{meals,setMeals} = useContext(MealPlanContext)
 
     useEffect(() => {
         getData().then(r => setMeals(r))
@@ -63,6 +65,7 @@ function MealPlan() {
 
 function Browse() {
 
+    const{meals,setMeals} = useContext(MealPlanContext)
     const [modalVisible, setModalVisible] = useState(false);
     const [recipe, setRecipe] = useState({name: "", ingredients: [], steps: []});
 
@@ -86,6 +89,7 @@ function Browse() {
 
     function addRecipeToPlan(recipe) {
         getData().then(r=>storeData(r?[...r,recipe]:[recipe]))
+        setMeals(prev=>[...prev,recipe])
         setModalVisible(false)
     }
 
@@ -151,8 +155,13 @@ function SettingsScreen() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+    const [meals, setMeals] = useState([])
+    const value = {meals,setMeals}
+
     return (
         <NavigationContainer>
+            <MealPlanContext.Provider value={value}>
             <Tab.Navigator initialRouteName="Browse">
                 <Tab.Screen name="History" component={History} options={{
                     tabBarIcon: ({color}) => <Ionicons name="bar-chart-outline" size={24} color="black"/>
@@ -167,6 +176,7 @@ export default function App() {
                     tabBarIcon: ({color}) => <Ionicons name="settings-outline" size={24} color="black"/>
                 }}/>
             </Tab.Navigator>
+            </MealPlanContext.Provider>
         </NavigationContainer>
     );
 }
