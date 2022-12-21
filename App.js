@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {Button, FlatList, Image, Modal, Pressable, ScrollView, Text, View} from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Styles} from "./Styles";
 import {Ionicons} from "@expo/vector-icons";
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Recipes from "./Recipes/recipes.json"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function History() {
     return (
@@ -16,6 +17,24 @@ function History() {
 }
 
 function MealPlan() {
+
+    const [meals, setMeals] = useState([])
+
+    useEffect(() => {
+        getData().then(r => setMeals(r))
+        console.log("called")
+    }, [])
+
+    const getData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('current-week')
+            return jsonValue != null ? JSON.parse(jsonValue) : [];
+        } catch (e) {
+            console.log("reading meal data produced an error")
+        }
+    }
+
+
     return (
         <View style={Styles.background}>
             <ScrollView style={{width: "100%"}} contentContainerStyle={{alignItems: "center"}}>
@@ -33,6 +52,9 @@ function MealPlan() {
                         </View>
                     </View>
                 )}
+                {meals.map((e,i)=> {
+                    return <Text key={i}>{e.name}</Text>
+                })}
             </ScrollView>
             <Text>Home!</Text>
         </View>
@@ -42,7 +64,31 @@ function MealPlan() {
 function Browse() {
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [recipe, setRecipe] = useState({name: "",ingredients:[],steps:[]});
+    const [recipe, setRecipe] = useState({name: "", ingredients: [], steps: []});
+
+    const getData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('current-week')
+            return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch(e) {
+            console.log("reading error while adding new recipe")
+        }
+    }
+
+    const storeData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('current-week', jsonValue)
+        } catch (e) {
+            console.log("storage error while adding new recipe")
+        }
+    }
+
+    function addRecipeToPlan(recipe) {
+        getData().then(r=>storeData(r?[...r,recipe]:[recipe]))
+        setModalVisible(false)
+    }
+
 
     const RenderItem = ({recipe}) => {
         return <Pressable style={Styles.mealCard} onPress={() => {
@@ -61,7 +107,7 @@ function Browse() {
             animationType="slide"
             transparent={true}
             visible={modalVisible}>
-            <ScrollView style={ {backgroundColor: "white",flex:1}}>
+            <ScrollView style={{backgroundColor: "white", flex: 1}}>
                 <Text style={Styles.header}> {recipe.name}</Text>
                 {recipe.ingredients.map((e, i) => {
                     return <Text key={i}>
@@ -76,6 +122,7 @@ function Browse() {
                 })}
             </ScrollView>
             <View>
+                <Button title={"add recipe"} onPress={()=>addRecipeToPlan(recipe)}/>
                 <Button title={"back"} onPress={() => setModalVisible(false)}/>
             </View>
         </Modal>
@@ -107,11 +154,11 @@ export default function App() {
     return (
         <NavigationContainer>
             <Tab.Navigator initialRouteName="Browse">
-                <Tab.Screen name="Meal Plan" component={MealPlan} options={{
-                    tabBarIcon: ({color}) => <Ionicons name="calendar-outline" size={24} color="black"/>
-                }}/>
                 <Tab.Screen name="History" component={History} options={{
                     tabBarIcon: ({color}) => <Ionicons name="bar-chart-outline" size={24} color="black"/>
+                }}/>
+                <Tab.Screen name="Meal Plan" component={MealPlan} options={{
+                    tabBarIcon: ({color}) => <Ionicons name="calendar-outline" size={24} color="black"/>
                 }}/>
                 <Tab.Screen name="Browse" component={Browse} options={{
                     tabBarIcon: ({color}) => <Ionicons name="search" size={24} color="black"/>
