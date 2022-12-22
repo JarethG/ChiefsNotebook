@@ -1,0 +1,68 @@
+[{
+  "name": "Butter Chicken Chapatis",
+  "ingredients": [
+    {
+      "quantity": "1",
+      "name": " beef roast",
+      "type": "Meat"
+    }
+  ],
+  "steps": [
+
+  ],
+  "imageURL": "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg"
+},
+  {
+  "name": "Nachos",
+  "ingredients": [
+    {
+      "quantity": "250g",
+      "name": "Beef Mince",
+      "type": "Meat"
+    },
+    {"quantity": "400g","name": "Canned Tomatoes","type": "Pantry"},
+    {"quantity": "400g","name": "Red Kidney Beans","type": "Pantry"},
+    {"quantity": "1","name": "White Onions","type": "Vegetable"},
+    {"quantity": "2 clove","name": "Garlic","type": "Vegetable"},
+    {"quantity": "1 pkt","name": "Old El Paso Spice Mixe","type": "Pantry"},
+    {"quantity": "200g","name": "Corn Chips","type": "Pantry"},
+    {"quantity": "","name": "Cheese","type": "Dairy"},
+    {"quantity": "125g","name": "Sour Cream","type": "Dairy"}
+
+
+  ],
+  "steps": [
+    "fry off the mince meat until browned",
+    "add onion and garlic, cook until softened",
+    "add Tomatoes and Red Kidney Beans",
+    "simmer for 20 minutes, adding water as needed",
+    "add the Old El Paso spice mix with 1/4 cup of water and cook till thickened",
+    "place corn chips around the plate with mince meat in the middle",
+    "Top with sour cream and Cheese before serving."
+  ]
+},
+  {
+  "name": "Pizza",
+  "ingredients": [
+    {"quantity": "400g","name": "Canned Tomatoes","type": "Pantry"},
+    {"quantity": "400g","name": "Red Kidney Beans","type": "Pantry"},
+    {"quantity": "1","name": "White Onions","type": "Vegetable"},
+    {"quantity": "2 clove","name": "Garlic","type": "Vegetable"},
+    {"quantity": "1 pkt","name": "Old El Paso Spice Mixe","type": "Pantry"},
+    {"quantity": "200g","name": "Corn Chips","type": "Pantry"},
+    {"quantity": "","name": "Cheese","type": "Dairy"},
+    {"quantity": "125g","name": "Sour Cream","type": "Dairy"}
+
+
+  ],
+  "steps": [
+    "fry off the mince meat until browned",
+    "add onion and garlic, cook until softened",
+    "add Tomatoes and Red Kidney Beans",
+    "simmer for 20 minutes, adding water as needed",
+    "add the Old El Paso spice mix with 1/4 cup of water and cook till thickened",
+    "place corn chips around the plate with mince meat in the middle",
+    "Top with sour cream and Cheese before serving."
+  ]
+}
+]
