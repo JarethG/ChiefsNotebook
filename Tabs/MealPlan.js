@@ -12,22 +12,12 @@ export function MealPlan() {
     const {meals, setMeals} = useContext(MealPlanContext)
 
 
-    useEffect(() => {
-        getData().then(r => setMeals(r))
-    }, [])
 
-    const getData = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('current-week')
-            return jsonValue != null ? JSON.parse(jsonValue) : Array(7).fill(undefined);
-        } catch (e) {
-            console.log("reading meal data produced an error")
-        }
-    }
 
 
     return (
         <View style={Styles.background}>
+            <Text>Home!</Text>
             <ScrollView style={{width: "100%"}} contentContainerStyle={{alignItems: "center"}}>
                 {meals.map((meal, index) =>
                     <View key={index} style={{width: "90%"}}>
@@ -44,8 +34,6 @@ export function MealPlan() {
                     </View>
                 )}
             </ScrollView>
-            <Text>Home!</Text>
-            <Button title={"p"} onPress={()=> console.log(meals[0].name)}/>
         </View>
     );
 }

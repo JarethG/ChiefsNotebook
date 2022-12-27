@@ -53,7 +53,7 @@
   "name": "Pizza",
   "ingredients": [
     {"quantity": "1 tsp","name": "Sugar","type": "Pantry"},
-    {"quantity": "1/2 cup","name": "Tepid Water","type": "Pantry"},
+    {"quantity": "1/2 cup","name": "Tepid Water","type": "Misc"},
     {"quantity": "1/1/2 tsp","name": "Dried Yeast","type": "Pantry"},
     {"quantity": "1 cup","name": "Self Raising Flour","type": "Pantry"},
     {"quantity": "1/4 cup","name": "Plain Flour","type": "Pantry"},
