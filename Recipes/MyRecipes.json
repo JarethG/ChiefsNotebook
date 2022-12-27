@@ -1,17 +1,25 @@
 [{
-  "name": "Butter Chicken Chapatis",
+  "name": "",
   "ingredients": [
     {
-      "quantity": "1",
-      "name": " beef roast",
-      "type": "Meat"
+      "quantity": "",
+      "name": "",
+      "type": ""
     }
   ],
-  "steps": [
-
-  ],
-  "imageURL": "http://img.sndimg.com/food/image/upload/w_266/v1/img/recipes/27/20/8/picVfzLZo.jpg"
+  "steps": []
 },
+  {
+    "name": "Butter Chicken Chapatis",
+    "ingredients": [
+      {
+        "quantity": "",
+        "name": "",
+        "type": ""
+      }
+    ],
+    "steps": []
+  },
   {
   "name": "Nachos",
   "ingredients": [
@@ -44,25 +52,200 @@
   {
   "name": "Pizza",
   "ingredients": [
-    {"quantity": "400g","name": "Canned Tomatoes","type": "Pantry"},
-    {"quantity": "400g","name": "Red Kidney Beans","type": "Pantry"},
-    {"quantity": "1","name": "White Onions","type": "Vegetable"},
-    {"quantity": "2 clove","name": "Garlic","type": "Vegetable"},
-    {"quantity": "1 pkt","name": "Old El Paso Spice Mixe","type": "Pantry"},
-    {"quantity": "200g","name": "Corn Chips","type": "Pantry"},
-    {"quantity": "","name": "Cheese","type": "Dairy"},
-    {"quantity": "125g","name": "Sour Cream","type": "Dairy"}
-
+    {"quantity": "1 tsp","name": "Sugar","type": "Pantry"},
+    {"quantity": "1/2 cup","name": "Tepid Water","type": "Pantry"},
+    {"quantity": "1/1/2 tsp","name": "Dried Yeast","type": "Pantry"},
+    {"quantity": "1 cup","name": "Self Raising Flour","type": "Pantry"},
+    {"quantity": "1/4 cup","name": "Plain Flour","type": "Pantry"},
+    {"quantity": "1/4 tsp","name": "Salt","type": "Pantry"},
+    {"quantity": "1 tbsp","name": "Olive Oil","type": "Pantry"}
 
   ],
   "steps": [
-    "fry off the mince meat until browned",
-    "add onion and garlic, cook until softened",
-    "add Tomatoes and Red Kidney Beans",
-    "simmer for 20 minutes, adding water as needed",
-    "add the Old El Paso spice mix with 1/4 cup of water and cook till thickened",
-    "place corn chips around the plate with mince meat in the middle",
-    "Top with sour cream and Cheese before serving."
+   "Dissolve sugar in the water",
+    "Sprinkle over the yeast",
+    "Mix in the rest of the ingredients and knead till elastic and smooth",
+    "Leave to rest for 20 minutes or doubled in size",
+    "While the dough is resting, turn the oven on to 180 fan bake (or similar)",
+    "Roll out and top with your favorite toppings",
+    "Bake till base is browned"
   ]
-}
+},
+  {
+    "name": "Pork Dumplings",
+    "ingredients": [
+      {
+        "quantity": "",
+        "name": "",
+        "type": ""
+      }
+    ],
+    "steps": []
+  },
+  {
+    "name": "Sausage and Veg",
+    "ingredients": [
+      {
+        "quantity": "2 per person",
+        "name": "Sausage",
+        "type": "Meat"
+      }
+    ],
+    "steps": []
+  },
+  {
+    "name": "Spaghetti Bolognese",
+    "ingredients": [
+      {
+        "quantity": "2 cloves",
+        "name": "Garlic",
+        "type": "Vegetable"
+      },
+      {
+        "quantity": "1",
+        "name": "Onion",
+        "type": "Vegetable"
+      },
+      {
+        "quantity": "500g",
+        "name": "Beef Mince",
+        "type": "Meat"
+      },
+      {
+        "quantity": "1/2 Cup",
+        "name": "Dry Red Wine",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "2",
+        "name": "Beef Stock Cubes",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "800g",
+        "name": "Can Crushed Tomatoes",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "2 tbsp",
+        "name": "Tomato Paste",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "2 tsp",
+        "name": "White Sugar",
+        "type": "Baking"
+      },
+      {
+        "quantity": "2 tsp",
+        "name": "Worcestershire Sauce",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "2",
+        "name": "Dried Bay Leaves",
+        "type": "Misc"
+      },
+      {
+        "quantity": "2 sprigs",
+        "name": "Fresh Thyme",
+        "type": "Misc"
+      },
+      {
+        "quantity": "",
+        "name": "Salt and Pepper",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "400g",
+        "name": "Spaghetti",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "",
+        "name": "Parmesan cheese",
+        "type": "Dairy"
+      }
+    ],
+    "steps": [
+      "cook both onion and garlic in wok until softened",
+      "add beef mince and cook until brown",
+      "add red wine and bring to simmer",
+      "add remaining ingredient, bring back to simmer and turn down to medium",
+      "cook for 20-30 minutes adding water as necessary",
+      "serve over pasta and garnished with parmesan cheese"
+    ]
+  },
+  {
+    "name": "Steak and Bluecheese Burger",
+    "ingredients": [
+      {
+        "quantity": "2",
+        "name": "Burger Buns",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "200g",
+        "name": "Beef Steak",
+        "type": "Meat"
+      },
+      {
+        "quantity": "Hand Full",
+        "name": "Fresh Lettuce Leaves",
+        "type": "Vegetable"
+      },
+      {
+        "quantity": "1 wedge",
+        "name": "Blue Cheese",
+        "type": "Dairy"
+      },
+      {
+        "quantity": "2",
+        "name": "Egg",
+        "type": "Pantry"
+      },
+      {
+        "quantity": "1",
+        "name": "Medium onion",
+        "type": "Vegetable"
+      },
+      {
+        "quantity": "",
+        "name": "BBQ Sauce",
+        "type": "Pantry"
+      }
+    ],
+    "steps": [
+      "prepare the steaks in your preferred marinade, leaving for up to 24h to develop flavour",
+      "soften onions in fry pan and set aside",
+      "cook steak to preferred state of cooked",
+      "fry off the eggs",
+      "toast the buns if you would like",
+      "Assemble burger"
+    ]
+  },
+  {
+    "name": "StirFry",
+    "ingredients": [
+      {
+        "quantity": "",
+        "name": "",
+        "type": ""
+      }
+    ],
+    "steps": []
+  },
+  {
+    "name": "Vietnamese Spring Rolls",
+    "ingredients": [
+      {
+        "quantity": "",
+        "name": "",
+        "type": ""
+      }
+    ],
+    "steps": []
+  }
+
+
 ]
