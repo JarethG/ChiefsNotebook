@@ -4,7 +4,8 @@ export const Styles = StyleSheet.create({
     background: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        width:"100%"
     },
     header: {
         fontSize: 24,
@@ -27,4 +28,15 @@ export const Styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
+    shoppingListCategory : {
+        fontSize:30,
+        borderColor:"grey",
+        borderTopWidth:1,
+        borderBottomWidth:1,
+        backgroundColor:"grey",
+    },
+    shoppingListItem : {
+        borderBottomWidth:1,
+        padding:5
+    }
 });

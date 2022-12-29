@@ -35,7 +35,7 @@ export default function App() {
     return (
         <NavigationContainer>
             <MealPlanContext.Provider value={value}>
-                <Tab.Navigator initialRouteName="Browse">
+                <Tab.Navigator initialRouteName="Shopping">
                     <Tab.Screen name="Shopping" component={Shopping} options={{
                         tabBarIcon: ({color}) => <Ionicons name="bar-chart-outline" size={24} color="black"/>
                     }}/>

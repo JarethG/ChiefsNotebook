@@ -5,6 +5,7 @@ import {Styles} from "../Styles";
 import {Ionicons} from "@expo/vector-icons";
 import {localImage} from "../assets/localImageLoader";
 import MyRecipes from "../Recipes/MyRecipes.json";
+import Recipes from "../Recipes/recipes.json"
 import * as React from "react";
 import MealPlanContext from "./MealPlanContext";
 
@@ -85,7 +86,6 @@ export function Browse() {
                 })}
             </ScrollView>
             <View>
-                <Button title={"add recipe"} onPress={() => addRecipeToPlan(recipe)}/>
                 <Button title={"back"} onPress={() => setModalVisible(false)}/>
             </View>
         </Modal>
@@ -95,7 +95,7 @@ export function Browse() {
     return (
         <View style={Styles.background}>
             <Text>Search</Text>
-            <FlatList data={MyRecipes} keyExtractor={(item) => item} style={{width: "100%"}}
+            <FlatList data={[...Recipes,...MyRecipes]} keyExtractor={(item) => item} style={{width: "100%"}}
                       keyExtractor={(item, index) => index}
                       renderItem={({item, index}) => <RenderItem recipe={item} key={index}/>}/>
             <Recipe/>
