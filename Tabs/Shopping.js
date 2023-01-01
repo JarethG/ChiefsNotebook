@@ -7,7 +7,7 @@ import MealPlanContext from "./MealPlanContext";
 export function Shopping() {
 
     const {meals, setMeals} = useContext(MealPlanContext)
-    const Categories = ["Pantry", "Baking", "Dairy", "Meat",  "Misc"]
+    const Categories = ["Pantry", "Baking", "Dairy", "Meat",  "Misc", "Fruit"]
     const [shoppingList, setShoppingList] = useState({})
     const [checkboxes, setCheckboxes] = useState({})
 
@@ -42,13 +42,13 @@ export function Shopping() {
                     {shoppingList[cat].map((e, i) => {
                         return <Pressable  key={i} style={[checkboxes[cat][i]?{backgroundColor:"#999"}:null, Styles.shoppingListItem]}
                         onPress={()=> {
-                        let arr = checkboxes
+                        let arr = Object.create(checkboxes)
                             arr[cat][i]= ! arr[cat][i]
                             setCheckboxes(arr)
-                            console.log(shoppingList)
                         }
                         }>
                             <Text>{e}</Text>
+
                         </Pressable>
                     })}
                 </View>
