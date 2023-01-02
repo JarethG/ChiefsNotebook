@@ -8,6 +8,7 @@ import MyRecipes from "../Recipes/MyRecipes.json";
 import Recipes from "../Recipes/recipes.json"
 import * as React from "react";
 import MealPlanContext from "./MealPlanContext";
+import {RecipeDisplay} from "../Recipes/RecipeDisplay";
 
 export function Browse() {
 
@@ -35,23 +36,10 @@ export function Browse() {
 
     const RenderItem = ({recipe}) => {
         const [adding, setAdding] = useState(false)
-        return <View style={Styles.mealCard}>
+        return <>
+            <RecipeDisplay recipe={recipe}/>
             <Ionicons name="add-circle-outline" size={50} color="black" onPress={() => setAdding(!adding)}
-                      style={{position: "absolute", right: 0}}/>
-            <Pressable onPress={() => {
-                setRecipe(recipe);
-                setModalVisible(true)
-            }}>
-                {recipe.imageURL ?
-                    <Image source={{uri: recipe.imageURL}} style={{width: 200, height: 200}}/>
-                    :
-                    <Image source={localImage(recipe.name)} style={{width: 200, height: 200}}/>
-
-                }
-                <Text>
-                    {recipe.name}
-                </Text>
-            </Pressable>
+                      style={{position: "absolute", right: 5,top:5}}/>
             {adding ? <View style={{
                 position: "absolute",
                 right: 0,
@@ -63,7 +51,7 @@ export function Browse() {
                 {meals.map((e, i) => <Button title={(e == undefined ? "empty" : e.name)}
                                              onPress={() => addRecipeToPlan(recipe, i)} key={i}/>)}
             </View> : null}
-        </View>
+            </>
     }
 
     const Recipe = () => {

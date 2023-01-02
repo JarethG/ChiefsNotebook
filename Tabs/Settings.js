@@ -2,8 +2,14 @@ import {Button, Text, View} from "react-native";
 import {Styles} from "../Styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
+import Recipes from "../Recipes/recipes.json"
+import {useContext} from "react";
+import MealPlanContext from "./MealPlanContext";
 
 export function Settings() {
+
+    const {meals, setMeals} = useContext(MealPlanContext)
+
     const getData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('current-week')
@@ -11,6 +17,22 @@ export function Settings() {
         } catch (e) {
             console.log("reading meal data produced an error")
         }
+    }
+
+    const storeData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('current-week', jsonValue)
+        } catch (e) {
+            console.log("storage error while adding new recipe")
+        }
+    }
+
+    function addRecipeToPlan(recipe, index) {
+        let arr = meals
+        arr[index] = recipe;
+        setMeals([...arr])
+        storeData(arr).then(r => console.log("all done"))
     }
 
     return (
@@ -24,6 +46,7 @@ export function Settings() {
                 }
             }}/>
             <Button title={"getasync"} onPress={()=> getData().then(r=>console.log(r))}/>
+            <Button title={"reload meal plan"} onPress={()=> [0,1,2,3,4,5,6].forEach(i=> addRecipeToPlan(Recipes[i+1],i))}/>
         </View>
     );
 }

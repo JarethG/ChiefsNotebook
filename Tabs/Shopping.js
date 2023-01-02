@@ -3,32 +3,57 @@ import {Styles} from "../Styles";
 import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import MealPlanContext from "./MealPlanContext";
+import Blacklist from "../Recipes/blacklist.json";
 
 export function Shopping() {
 
     const {meals, setMeals} = useContext(MealPlanContext)
-    const Categories = ["Pantry", "Baking", "Dairy", "Meat",  "Misc", "Fruit"]
+    const Categories = ["pantry", "baking", "dairy", "fruit" , "vegetable", "meat", "condiment",  "misc"]
     const [shoppingList, setShoppingList] = useState({})
     const [checkboxes, setCheckboxes] = useState({})
 
-    useEffect(() => {
+    //{ingredient : {recipe: {"recipe":amount""}}
+
+    function getAllIngredients() {
         let obj = {}
+        Categories.forEach(e => {
+            obj[e] = {}
+        })
+        meals.forEach(meal => meal ?
+            meal.ingredients.forEach(ingredient => {
+                if(Categories.includes(ingredient.type)) {
+                    if( obj[ingredient.type][ingredient.name]!=undefined){
+                        obj[ingredient.type][ingredient.name] = obj[ingredient.type][ingredient.name]+1
+                    } else {
+                        obj[ingredient.type][ingredient.name] = 1
+                    }
+                } else if(Blacklist.findIndex(e => ingredient.name.includes(e))>0){
+                    console.log(ingredient.name + "   " + Blacklist.findIndex(e => e.includes(ingredient.name)))
+                }else {
+                    if(obj.misc[ingredient.name]!=undefined){
+                        obj["misc"][ingredient.name] = obj["misc"][ingredient.name]+1
+                    } else {
+                        obj["misc"][ingredient.name] = 1
+                    }
+                }
+            }) : null)
+        return obj
+    }
+
+    useEffect(() => {
         let checks = {}
         Categories.forEach(e => {
-            obj[e] = []
             checks[e] = []
         })
         meals.forEach(meal => meal ?
             meal.ingredients.forEach(ingredient => {
                 if(Categories.includes(ingredient.type)) {
-                    obj[ingredient.type] = [...obj[ingredient.type], ingredient.name]
                     checks[ingredient.type] = [...checks[ingredient.type], false]
                 } else {
-                    obj["Misc"] = [...obj["Misc"], ingredient.name]
-                    checks["Misc"] = [...checks["Misc"], false]
+                    checks["misc"] = [...checks["misc"], false]
                 }
             }) : null)
-        setShoppingList(obj)
+        setShoppingList(getAllIngredients)
         setCheckboxes(checks)
 
     }, [meals])
@@ -39,7 +64,7 @@ export function Shopping() {
             {Object.keys(shoppingList).map((cat, index) => {
                 return <View key={index} style={{alignSelf:"flex-start",width:"100%"}}>
                     <Text style={Styles.shoppingListCategory}>{cat}</Text>
-                    {shoppingList[cat].map((e, i) => {
+                    {Object.keys(shoppingList[cat]).map((e, i) => {
                         return <Pressable  key={i} style={[checkboxes[cat][i]?{backgroundColor:"#999"}:null, Styles.shoppingListItem]}
                         onPress={()=> {
                         let arr = Object.create(checkboxes)
@@ -47,7 +72,8 @@ export function Shopping() {
                             setCheckboxes(arr)
                         }
                         }>
-                            <Text>{e}</Text>
+
+                            <Text>{shoppingList[cat][e]} {e}</Text>
 
                         </Pressable>
                     })}
