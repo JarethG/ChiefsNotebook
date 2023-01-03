@@ -21,6 +21,7 @@ export function Shopping() {
         })
         meals.forEach(meal => meal ?
             meal.ingredients.forEach(ingredient => {
+                if(ingredient.onList){
                 if(Categories.includes(ingredient.type)) {
                     if( obj[ingredient.type][ingredient.name]!=undefined){
                         obj[ingredient.type][ingredient.name] = obj[ingredient.type][ingredient.name]+1
@@ -36,7 +37,7 @@ export function Shopping() {
                         obj["misc"][ingredient.name] = 1
                     }
                 }
-            }) : null)
+            }}) : null)
         return obj
     }
 

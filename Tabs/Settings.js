@@ -44,6 +44,7 @@ export function Settings() {
                 } catch (e) {
                     console.log("storage error while adding new recipe")
                 }
+                setMeals(Array(7).fill(undefined))
             }}/>
             <Button title={"getasync"} onPress={()=> getData().then(r=>console.log(r))}/>
             <Button title={"reload meal plan"} onPress={()=> [0,1,2,3,4,5,6].forEach(i=> addRecipeToPlan(Recipes[i+1],i))}/>

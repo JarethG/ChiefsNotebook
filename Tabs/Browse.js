@@ -14,7 +14,8 @@ export function Browse() {
 
     const {meals, setMeals} = useContext(MealPlanContext)
     const [modalVisible, setModalVisible] = useState(false);
-    const [recipe, setRecipe] = useState({name: "", ingredients: [], steps: []});
+    const [temp, setTemp] = useState(false);
+    const [recipe, setRecipe] = useState();
 
     const storeData = async (value) => {
         try {
@@ -25,68 +26,63 @@ export function Browse() {
         }
     }
 
-    function addRecipeToPlan(recipe, index) {
+    function addRecipeToPlan(recipe, index,checks) {
         let arr = meals
+        recipe.ingredients.forEach((e,i)=>e["onList"]=checks[i])
         arr[index] = recipe;
         setMeals([...arr])
         setModalVisible(false)
         storeData(arr)
+        console.log(recipe)
     }
 
 
     const RenderItem = ({recipe}) => {
         const [adding, setAdding] = useState(false)
-        return <>
-            <RecipeDisplay recipe={recipe}/>
-            <Ionicons name="add-circle-outline" size={50} color="black" onPress={() => setAdding(!adding)}
-                      style={{position: "absolute", right: 5,top:5}}/>
-            {adding ? <View style={{
-                position: "absolute",
-                right: 0,
-                width: "100%",
-                height: "100%",
-                backgroundColor: "rgba(0,0,0,0.5)"
-            }}>
-                {/*{Days.map((e,i)=><Button title={e} key={i}/>)}*/}
-                {meals.map((e, i) => <Button title={(e == undefined ? "empty" : e.name)}
-                                             onPress={() => addRecipeToPlan(recipe, i)} key={i}/>)}
-            </View> : null}
-            </>
-    }
+        const [pickDay, setPickDay] = useState(false)
+        const [checks,setChecks] = useState(Array(recipe.ingredients.length).fill(false))
 
-    const Recipe = () => {
-        return <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}>
-            <ScrollView style={{backgroundColor: "white", flex: 1}}>
-                <Text style={Styles.header}> {recipe.name}</Text>
-                {recipe.ingredients.map((e, i) => {
-                    return <Text key={i}>
-                        {e.quantity} {e.name}
-                        {/*{e.type}*/}
-                    </Text>
-                })}
-                {recipe.steps.map((e, i) => {
-                    return <Text key={i} style={Styles.recipe_steps}>
-                        {e}
-                    </Text>
-                })}
-            </ScrollView>
-            <View>
-                <Button title={"back"} onPress={() => setModalVisible(false)}/>
-            </View>
-        </Modal>
-    }
+        return !adding ?
+            <>
+                <RecipeDisplay recipe={recipe}/>
+                <Ionicons name="add-circle-outline" size={50} color="black" onPress={() => setAdding(!adding)}
+                          style={{position: "absolute", right: 5, top: 5}}/>
+            </> :
+            pickDay?
+                <View style={Styles.meal_card}>
+                    {meals.map((e, i) => <View style={{margin: 5}} key={i}>
+                        <Button title={(e == undefined ? "empty" : e.name)}
+                                onPress={() => addRecipeToPlan(recipe,i,checks)}/></View>)}
+                    <Ionicons name="remove-circle-outline" size={50} color="black" onPress={() => setAdding(!adding)}
+                              style={{position: "absolute", right: 5, top: 5}}/>
+                    <Ionicons name="chevron-back-outline" size={32} color="black"   onPress={()=> setPickDay(!pickDay)}
+                              style={{position: "absolute", left: 5, top: 5}}/>
+                </View>:
+                <ScrollView contentContainerStyle={{backgroundColor:"white",flex:1,justifyContent:"center",padding:10}}>
+                    <Button title={"back"} onPress={()=>setAdding(false)}/>
+                    <Text style={Styles.h2}>Add to shopping list</Text>
+                    {recipe?recipe.ingredients.map((e,i)=>{
+                        return <Pressable style={{justifyContent:"space-between",flexDirection:"row"}} onPress={()=> {
+                            setChecks(prev => prev.map((e,index)=>index==i?!e:e))}
+                        } key={i}>
+                            <Text>{e.name}</Text>
+                            {checks[i]?
+                                <Ionicons name="ios-checkbox-sharp" size={24} color="black"/>
+                                :
+                                <Ionicons name="ios-checkbox-outline" size={24} color="black" />}
+                        </Pressable>
+                    }):<Text>Error</Text>}
+                    <Button title={"Pick day"} onPress={()=>setPickDay(true)}/>
+                </ScrollView>
 
+    }
 
     return (
         <View style={Styles.background}>
             <Text>Search</Text>
-            <FlatList data={[...Recipes,...MyRecipes]} keyExtractor={(item) => item} style={{width: "100%"}}
+            <FlatList data={[...Recipes, ...MyRecipes]} keyExtractor={(item) => item} style={{width: "100%"}}
                       keyExtractor={(item, index) => index}
                       renderItem={({item, index}) => <RenderItem recipe={item} key={index}/>}/>
-            <Recipe/>
         </View>
     );
 }

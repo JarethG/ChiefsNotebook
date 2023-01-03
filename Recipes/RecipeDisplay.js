@@ -6,7 +6,6 @@ import {useState} from "react";
 import {Ionicons} from "@expo/vector-icons";
 
 export const RecipeDisplay = ({recipe, day}) => {
-
     const image = recipe.imageURL ? {uri: recipe.imageURL} : localImage(recipe.name);
 
     const [modalVisible, setModalVisible] = useState(false);
