@@ -1,39 +1,23 @@
 import {useContext, useState} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Button, FlatList, Image, Modal, Pressable, ScrollView, Text, View} from "react-native";
 import {Styles} from "../Styles";
 import {Ionicons} from "@expo/vector-icons";
-import {localImage} from "../assets/localImageLoader";
 import MyRecipes from "../Recipes/MyRecipes.json";
 import Recipes from "../Recipes/recipes.json"
 import * as React from "react";
-import MealPlanContext from "./MealPlanContext";
+import MealPlanContext, {StoreAsyncData} from "./MealPlanContext";
 import {RecipeDisplay} from "../Recipes/RecipeDisplay";
 
 export function Browse() {
 
     const {meals, setMeals} = useContext(MealPlanContext)
-    const [modalVisible, setModalVisible] = useState(false);
-    const [temp, setTemp] = useState(false);
-    const [recipe, setRecipe] = useState();
-
-    const storeData = async (value) => {
-        try {
-            const jsonValue = JSON.stringify(value)
-            await AsyncStorage.setItem('current-week', jsonValue)
-        } catch (e) {
-            console.log("storage error while adding new recipe")
-        }
-    }
 
     function addRecipeToPlan(recipe, index,checks) {
         let arr = meals
         recipe.ingredients.forEach((e,i)=>e["onList"]=checks[i])
         arr[index] = recipe;
         setMeals([...arr])
-        setModalVisible(false)
-        storeData(arr)
-        console.log(recipe)
+        StoreAsyncData(arr, "current-week").then(r => console.log("meal successfully added"))
     }
 
 
@@ -73,6 +57,10 @@ export function Browse() {
                         </Pressable>
                     }):<Text>Error</Text>}
                     <Button title={"Pick day"} onPress={()=>setPickDay(true)}/>
+                    <Button title={"Pick all"} onPress={()=>{
+                        setChecks(prev => prev.map(()=>true))
+                        setPickDay(true)
+                    }}/>
                 </ScrollView>
 
     }

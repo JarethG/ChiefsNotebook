@@ -1,4 +1,4 @@
-import {Button, Image, Modal, Pressable, ScrollView, Text, View} from "react-native";
+import {Image, Modal, Pressable, ScrollView, Text, View} from "react-native";
 import {Styles} from "../Styles";
 import * as React from "react";
 import {localImage} from "../assets/localImageLoader";
@@ -26,13 +26,12 @@ export const RecipeDisplay = ({recipe, day}) => {
             animationType="slide"
             transparent={true}
             visible={modalVisible}
-        onRequestClose={()=>setModalVisible(false)}>
+            onRequestClose={() => setModalVisible(false)}>
             <View style={{backgroundColor: "white", flex: 1}}>
-                <Image source={image} style={{postition: "absolute", width: "100%", height: "30%"}}/>
-                <Pressable style={{position: "absolute",top:0,flexDirection:"row",alignItems:"center",backgroundColor:"rgba(160,160,160,0.5)",borderRadius:5}}
-                           onPress={() => setModalVisible(false)}>
+                <Image source={image} style={Styles.recipe_image}/>
+                <Pressable style={Styles.backButton} onPress={() => setModalVisible(false)}>
                     <Ionicons name="chevron-back-outline" size={32} color="black"/>
-                    <Text style={{fontSize:16}}>All Recipes</Text>
+                    <Text style={{fontSize: 16}}>All Recipes</Text>
                 </Pressable>
                 <ScrollView style={Styles.recipe_scrollView}>
                     <Text style={Styles.recipe_name}>{recipe.name}</Text>
@@ -40,7 +39,6 @@ export const RecipeDisplay = ({recipe, day}) => {
                     {recipe.ingredients.map((e, i) => {
                         return <Text key={i} style={Styles.recipe_ingredient}>
                             {e.quantity} {e.name}
-                            {/*{e.type}*/}
                         </Text>
                     })}
                     <Text style={Styles.h2}>Recipe</Text>

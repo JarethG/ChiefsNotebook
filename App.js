@@ -26,7 +26,7 @@ export default function App() {
     const getData = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('current-week')
-            return jsonValue != null ? JSON.parse(jsonValue) : Array(7).fill(undefined);
+            return jsonValue != null ? JSON.parse(jsonValue).map(e=>e==null?undefined:e) : Array(7).fill(undefined);
         } catch (e) {
             console.log("reading meal data produced an error")
         }

@@ -47,6 +47,11 @@ export const Styles = StyleSheet.create({
         borderBottomWidth: 1,
         padding: 5
     },
+    recipe_image: {
+        position: "absolute",
+        width: "100%",
+        height: "30%"
+    },
     recipe_name: {
         fontSize: 24,
         fontWeight: "bold",
@@ -68,5 +73,13 @@ export const Styles = StyleSheet.create({
         top: -20,
         borderRadius: 10,
         paddingHorizontal:15
+    },
+    backButton: {
+        position: "absolute",
+        top: 0,
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "rgba(160,160,160,0.5)",
+        borderRadius: 5
     }
 });

@@ -30,6 +30,7 @@ export function Settings() {
 
     function addRecipeToPlan(recipe, index) {
         let arr = meals
+        recipe.ingredients.forEach((e,i)=>e["onList"]=true)
         arr[index] = recipe;
         setMeals([...arr])
         storeData(arr).then(r => console.log("all done"))
