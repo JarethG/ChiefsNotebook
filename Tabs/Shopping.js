@@ -22,13 +22,13 @@ export function Shopping() {
                 if (Blacklist.findIndex(e => ingredient.name.includes(e)) < 0 && ingredient.onList) {
                     let obj = list[ingredient.type][ingredient.name]
                     obj == undefined ?
-                        list[ingredient.type][ingredient.name] = {count: 1, meals: [], volumes: [],check:false}
+                        list[ingredient.type][ingredient.name] = {count: 1, meals: [], volumes: [], check: false}
                         :
                         list[ingredient.type][ingredient.name] = {
                             count: obj.count + 1,
                             meals: [...obj.meals, meal],
                             volumes: [],
-                            check:false
+                            check: false
                         };
                 }
             })
@@ -40,66 +40,11 @@ export function Shopping() {
         setShoppingList(createShoppingList())
     }, [meals])
 
-    function updateShoppingList(recipe, index) {
-        let arr = meals
-        arr[index] = recipe;
-        setMeals([...arr])
-        StoreAsyncData(arr, "current-week").then(r => console.log("meal successfully added"))
-    }
 
-    const UpdateShoppingList = () => {
-        const [modalVisible, setModalVisible] = useState(false);
-        const [recipe, setRecipe] = useState();
-        const [day, setDay] = useState()
-
-        return <><Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-        >
-            {recipe==undefined ?
-                <View style={Styles.meal_card}>
-                    {meals.map((e, i) => e != undefined ? <View style={{margin: 5}} key={i}>
-                        <Button title={e.name}
-                                onPress={() => {
-                                    setRecipe(e)
-                                    setDay(i)
-                                }}/></View> : undefined)}
-                    <Ionicons name="chevron-back-outline" size={32} color="black"
-                              onPress={() => setModalVisible(!modalVisible)}
-                              style={{position: "absolute", left: 5, top: 5}}/>
-
-                </View> :
-
-                <ScrollView
-                    contentContainerStyle={{backgroundColor: "white", flex: 1, justifyContent: "center", padding: 10}}>
-                    <Button title={"back"} onPress={() => {
-                       setRecipe(undefined)
-                    }}/>
-                    <Text style={Styles.h2}>Add to shopping list</Text>
-                    {recipe.ingredients.map((e, i) => {
-                        return <Pressable style={{justifyContent: "space-between", flexDirection: "row"}}
-                                          onPress={() => {
-                                              setRecipe(prev=>{
-                                              const newState = {...prev}
-                                              newState.ingredients[i]["onList"] = !newState.ingredients[i]["onList"]
-                                              return newState
-                                          })}
-                                          } key={i}>
-                            <Text>{e.name}</Text>
-                                <Ionicons name={e["onList"] ?"ios-checkbox-sharp":"ios-checkbox-outline"} size={24} color="black"/>
-                        </Pressable>
-                    })}
-                    <Button title={"Confirm Update"} onPress={() => updateShoppingList(recipe, day)}/>
-                </ScrollView>}
-        </Modal>
-            <Button title={"update shopping list"} onPress={() => setModalVisible(true)}/>
-        </>
-    }
 
     return (
         <View style={Styles.background}>
-            <UpdateShoppingList/>
+
             <ScrollView style={{width: "90%"}}>
                 {Object.keys(shoppingList).map((cat, index) => {
                     return <View key={index} style={{alignSelf: "flex-start", width: "100%"}}>
@@ -108,17 +53,88 @@ export function Shopping() {
                             return <Pressable key={i}
                                               style={[shoppingList[cat][e].check ? {backgroundColor: "#999"} : null, Styles.shoppingListItem]}
                                               onPress={() => {
-                                                  setShoppingList(prev=> {
-                                                  const newState = {...prev}
-                                                      newState[cat][e].check = ! prev[cat][e].check
+                                                  setShoppingList(prev => {
+                                                      const newState = {...prev}
+                                                      newState[cat][e].check = !prev[cat][e].check
                                                       return newState
-                                              })}}>
+                                                  })
+                                              }}>
                                 <Text>{shoppingList[cat][e].count} {e} {shoppingList[cat][e].check.toString()}</Text>
                             </Pressable>
                         })}
                     </View>
                 })}
             </ScrollView>
+            <UpdateShoppingList/>
         </View>
     );
+}
+
+export const UpdateShoppingList = ({newRecipe}) => {
+    const {meals, setMeals} = useContext(MealPlanContext)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [recipe, setRecipe] = useState();
+    const [day, setDay] = useState()
+
+    function updateShoppingList(recipe, index) {
+        let arr = meals
+        arr[index] = recipe;
+        setMeals([...arr])
+        StoreAsyncData(arr, "current-week").then(r => console.log("meal successfully added"))
+    }
+
+
+    return <><Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+    >
+        {recipe == undefined ?
+            <View style={Styles.meal_card}>
+                {meals.map((e, i) => e != undefined ? <View style={{margin: 5}} key={i}>
+                    <Button title={e.name}
+                            onPress={() => {
+                                setRecipe(e)
+                                setDay(i)
+                            }}/></View> : newRecipe ?
+                    <Button key={i} title={"no recipe yet"} onPress={() => {
+                        setRecipe(newRecipe)
+                        setDay(i)
+                    }}/> : null)}
+                <Ionicons name="chevron-back-outline" size={32} color="black"
+                          onPress={() => setModalVisible(!modalVisible)}
+                          style={{position: "absolute", left: 5, top: 5}}/>
+
+            </View> :
+            <ScrollView
+                contentContainerStyle={{backgroundColor: "white", flex: 1, justifyContent: "center", padding: 10}}>
+                <Button title={"back"} onPress={() => {
+                    setRecipe(undefined)
+                }}/>
+                <Text style={Styles.h2}>Add to shopping list</Text>
+                {recipe.ingredients.map((e, i) => {
+                    return <Pressable style={{justifyContent: "space-between", flexDirection: "row"}}
+                                      onPress={() => {
+                                          setRecipe(prev => {
+                                              const newState = {...prev}
+                                              newState.ingredients[i]["onList"] = !newState.ingredients[i]["onList"]
+                                              return newState
+                                          })
+                                      }
+                                      } key={i}>
+                        <Text>{e.name}</Text>
+                        <Ionicons name={e["onList"] ? "ios-checkbox-sharp" : "ios-checkbox-outline"} size={24}
+                                  color="black"/>
+                    </Pressable>
+                })}
+                <Button title={"Confirm Update"} onPress={() => {
+                    setModalVisible(false);
+                    setRecipe(undefined)
+                    updateShoppingList(recipe,day)
+                }}/>
+            </ScrollView>}
+    </Modal>
+        <Ionicons name="add-circle-outline" size={50} color="black" onPress={() => setModalVisible(!modalVisible)}
+                  style={{position: "absolute", right: 5, top: 5}}/>
+    </>
 }
