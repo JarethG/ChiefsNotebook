@@ -22,13 +22,12 @@ export function Shopping() {
                 if (Blacklist.findIndex(e => ingredient.name.includes(e)) < 0 && ingredient.onList) {
                     let obj = list[ingredient.type][ingredient.name]
                     obj == undefined ?
-                        list[ingredient.type][ingredient.name] = {count: 1, meals: [], volumes: [], check: false}
+                        list[ingredient.type][ingredient.name] = {count: 1, meals: [meal.name], volumes: [ingredient.quantity]}
                         :
                         list[ingredient.type][ingredient.name] = {
                             count: obj.count + 1,
-                            meals: [...obj.meals, meal],
-                            volumes: [],
-                            check: false
+                            meals: [...obj.meals, meal.name],
+                            volumes: [...obj.volumes,ingredient.quantity],
                         };
                 }
             })
@@ -40,7 +39,25 @@ export function Shopping() {
         setShoppingList(createShoppingList())
     }, [meals])
 
-
+    const RenderItem =({category, ingredient})=> {
+        const count = shoppingList[category][ingredient].count;
+        const [expanded,setExpanded] = useState(false)
+        const [checked,setChecked] = useState(false)
+       return <Pressable
+                   style={[checked ? {backgroundColor: "#999"} : null, Styles.shoppingListItem]}
+                   onPress={() => {
+                      setChecked(!checked)
+                   }}>
+           <View style={{flexDirection:"row"}}>
+           <Text>{count} {ingredient} </Text>
+               <Ionicons name={expanded?"caret-up-circle-outline":"caret-down-circle-outline"} size={24} color="black" onPress={()=>setExpanded(!expanded)}/>
+           </View>
+           {expanded?<View>{shoppingList[category][ingredient].meals.map((e,i)=> {
+              return <Text key={i}>{JSON.stringify(e)} {shoppingList[category][ingredient].volumes[i]}</Text>
+           })}</View>
+               :null}
+        </Pressable>
+    }
 
     return (
         <View style={Styles.background}>
@@ -50,17 +67,7 @@ export function Shopping() {
                     return <View key={index} style={{alignSelf: "flex-start", width: "100%"}}>
                         <Text style={Styles.shoppingListCategory}>{cat}</Text>
                         {Object.keys(shoppingList[cat]).map((e, i) => {
-                            return <Pressable key={i}
-                                              style={[shoppingList[cat][e].check ? {backgroundColor: "#999"} : null, Styles.shoppingListItem]}
-                                              onPress={() => {
-                                                  setShoppingList(prev => {
-                                                      const newState = {...prev}
-                                                      newState[cat][e].check = !prev[cat][e].check
-                                                      return newState
-                                                  })
-                                              }}>
-                                <Text>{shoppingList[cat][e].count} {e} {shoppingList[cat][e].check.toString()}</Text>
-                            </Pressable>
+                            return <RenderItem category={cat} ingredient={e} key={i}/>
                         })}
                     </View>
                 })}
@@ -127,6 +134,13 @@ export const UpdateShoppingList = ({newRecipe}) => {
                                   color="black"/>
                     </Pressable>
                 })}
+                <Button title={"check all"} onPress={()=> setRecipe(prev => {
+                    const newState = {...prev}
+                     newState.ingredients = prev.ingredients.map(e => {
+                        return {...e, onList: true}
+                    })
+                    return newState
+                })}/>
                 <Button title={"Confirm Update"} onPress={() => {
                     setModalVisible(false);
                     setRecipe(undefined)
