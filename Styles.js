@@ -48,7 +48,6 @@ export const Styles = StyleSheet.create({
         padding: 5
     },
     recipe_image: {
-        position: "absolute",
         width: "100%",
         height: "30%"
     },
@@ -81,5 +80,37 @@ export const Styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "rgba(160,160,160,0.5)",
         borderRadius: 5
+    },
+    search_box: {
+        borderWidth:1,
+        borderColor:"grey",
+        width:"80%",
+
+    },
+    search_box_text: {
+        fontSize:20,
+        borderColor:"grey",
+        borderBottomWidth:1
+    },
+    search_box_suggestions: {
+        fontSize:20,
+        borderColor:"grey",
+        borderBottomWidth:1
+    },
+    ingredient_tag_container: {
+        flexDirection:"row",
+        flexWrap: "wrap"
+    },
+    ingredient_tag: {
+        borderWidth:1,
+        borderColor:'light-grey',
+        borderRadius:10,
+        alignItems:"center",
+        flexDirection:"row",
+        margin:5,
+        paddingHorizontal:5,
+        backgroundColor:"#ffffff",
     }
+
+
 });

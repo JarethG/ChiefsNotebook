@@ -49,7 +49,7 @@ export function Shopping() {
                       setChecked(!checked)
                    }}>
            <View style={{flexDirection:"row"}}>
-           <Text>{count} {ingredient} </Text>
+           <Text>[{count}] {ingredient} </Text>
                <Ionicons name={expanded?"caret-up-circle-outline":"caret-down-circle-outline"} size={24} color="black" onPress={()=>setExpanded(!expanded)}/>
            </View>
            {expanded?<View>{shoppingList[category][ingredient].meals.map((e,i)=> {
