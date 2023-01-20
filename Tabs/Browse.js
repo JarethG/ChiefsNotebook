@@ -12,6 +12,7 @@ import {Ionicons} from "@expo/vector-icons";
 export function Browse() {
 
     const [pageToggle, setPageToggle] = useState(false)
+    const [recipes,setRecipes] = useState([...Recipes, ...MyRecipes])
 
     const RenderItem = ({recipe}) => {
         return <>
@@ -23,7 +24,7 @@ export function Browse() {
     const Search = () => {
 
         const [suggestions, setSuggestions] = useState([])
-        const [ingredientFilters,setIngredientFilters] = useState(["cheese"])
+        const [ingredientFilters,setIngredientFilters] = useState(["grated Parmesan cheese"])
 
         function getIngredientMatches(s) {
             return Ingredients.filter(e => e.includes(s.toLowerCase()))
@@ -33,22 +34,35 @@ export function Browse() {
             setIngredientFilters(prev=>[...prev,e])
         }
 
-        const IngredientTag = ({ingredientName}) => {
+        function removeIngredientFilter(index) {
+            setIngredientFilters(prev=>prev.filter((e,i)=>i!=index))
+        }
+
+        const IngredientTag = ({ingredientName,index}) => {
             return(
-                <View style={Styles.ingredient_tag}>
+                <Pressable style={Styles.ingredient_tag} onPress={()=>removeIngredientFilter(index)}>
                     <Ionicons name="close-circle-outline" size={18} color="black" />
                     <Text>{ingredientName}</Text>
-                </View>
+                </Pressable>
             )
         }
 
+        function search() {
+            let arr = [...Recipes, ...MyRecipes];
+            ingredientFilters.forEach((e) => {
+                arr = arr.filter(r => r.ingredients.some(i=>i.name==e))
+            })
+            setRecipes(arr);
+            setPageToggle(!pageToggle)
+        }
+
         return (
-            <View style={Styles.search_box}>
+            <View style={Styles.background}>
                 <TextInput placeholder={"Search..."}
                            onChangeText={(s) => setSuggestions(getIngredientMatches(s))}
                            style={Styles.search_box_text}/>
                 <View style={Styles.ingredient_tag_container}>{
-                    ingredientFilters.map((e,i)=><IngredientTag key={i} ingredientName={e}/>)}
+                    ingredientFilters.map((e,i)=><IngredientTag key={i} ingredientName={e} index={i}/>)}
                 </View>
                 <ScrollView>
                     {
@@ -59,6 +73,7 @@ export function Browse() {
                         )
                     }
                 </ScrollView>
+                <Button title={"search"} onPress={()=>search()}/>
             </View>
         )
     }
@@ -67,7 +82,7 @@ export function Browse() {
         <View style={Styles.background}>
             <Button title={"switch"} onPress={() => setPageToggle(!pageToggle)}/>
             {pageToggle ?
-                <FlatList data={[...Recipes, ...MyRecipes]} keyExtractor={(item) => item} style={{width: "100%"}}
+                <FlatList data={recipes} keyExtractor={(item) => item} style={{width: "100%"}}
                           keyExtractor={(item, index) => index}
                           renderItem={({item, index}) => <RenderItem recipe={item} key={index}/>}/>
                 :
