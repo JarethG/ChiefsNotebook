@@ -3,7 +3,7 @@ import {Ionicons} from "@expo/vector-icons";
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useContext, useEffect, useState} from "react";
-import {Browse} from "./Tabs/Browse";
+import {Browse} from "./Tabs/Browse/Browse";
 import {MealPlan} from "./Tabs/MealPlan";
 import {History} from "./Tabs/History";
 import {Settings} from "./Tabs/Settings"
@@ -35,7 +35,7 @@ export default function App() {
     return (
         <NavigationContainer>
             <MealPlanContext.Provider value={value}>
-                <Tab.Navigator initialRouteName="Shopping">
+                <Tab.Navigator initialRouteName="Browse">
                     <Tab.Screen name="Shopping" component={Shopping} options={{
                         tabBarIcon: ({color}) => <Ionicons name="bar-chart-outline" size={24} color="black"/>
                     }}/>
