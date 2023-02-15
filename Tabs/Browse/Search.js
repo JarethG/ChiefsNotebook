@@ -1,4 +1,4 @@
-import {RecipeDisplay} from "../../Recipes/RecipeDisplay";
+import {Recipe, RecipeDisplay} from "../../Recipes/RecipeDisplay";
 import {UpdateShoppingList} from "../Shopping";
 import {useEffect, useState} from "react";
 import Ingredients from "../../Recipes/ingredients.json";
@@ -9,7 +9,6 @@ import Recipes from "../../Recipes/recipes.json";
 import MyRecipes from "../../Recipes/MyRecipes.json";
 import * as React from "react";
 import {localImage} from "../../assets/localImageLoader";
-
 
 
 const Search = () => {
@@ -73,35 +72,52 @@ const Search = () => {
 
 export const SearchResults = ({searchString}) => {
 
-    useEffect(()=> {
+    useEffect(() => {
         setSuggestions(getRecipeMatches(searchString));
-    },[searchString])
+    }, [searchString])
 
     const [suggestions, setSuggestions] = useState([])
     const recipes = [...Recipes, ...MyRecipes]
-    const [zoom,setZoom] = useState();
+    const [zoom, setZoom] = useState();
+    const [modalVisible, setModalVisible] = useState(false);
+    const [recipe, setRecipe] = useState(undefined);
 
     function getRecipeMatches(s) {
         return recipes.filter(recipe => recipe.name.toLowerCase().includes(s.toLowerCase()))
     }
 
     return (
-        <View style={{flex:1}}>
-            {zoom?<Modal transparent={true}>
+        <View style={{flex: 1}}>
+            {zoom ? <Modal transparent={true}>
                 <Image source={zoom} style={Styles.search_result_zoom}/>
+            </Modal> : null}
+            {recipe?<Modal
+                animationType="slide"
+                transparent={true}
+                visible={true}
+                onRequestClose={() => setModalVisible(false)}>
+                <Recipe recipe={recipe} image={recipe.imageURL ? {uri: recipe.imageURL} : localImage(recipe.name)}/>
+                <Pressable style={Styles.backButton} onPress={() => setRecipe(undefined)}>
+                    <Ionicons name="chevron-back-outline" size={32} color="black"/>
+                    <Text style={{fontSize: 16}}>All Recipes</Text>
+                </Pressable>
             </Modal>:null}
             <ScrollView>
                 {suggestions.map((recipe, index) =>
-                        <View key={index} style={Styles.search_result_container}>
-                            <Pressable onPressIn={()=>setZoom(recipe.imageURL ? {uri: recipe.imageURL} : localImage(recipe.name))}
-                            onPressOut={()=>setZoom(undefined)}
+                    <View key={index} style={Styles.search_result_container}>
+                        <Pressable
+                            onPressIn={() => setZoom(recipe.imageURL ? {uri: recipe.imageURL} : localImage(recipe.name))}
+                            onPressOut={() => setZoom(undefined)}
                             style={Styles.search_result_image}>
-                                <Image source={recipe.imageURL ? {uri: recipe.imageURL} : localImage(recipe.name)} style={Styles.search_result_image}/>
-                            </Pressable>
-                            <Text style={Styles.search_result_text}>{recipe.name}</Text>
-                            <UpdateShoppingList newRecipe={recipe}/>
-                        </View>
-                    )
+                            <Image source={recipe.imageURL ? {uri: recipe.imageURL} : localImage(recipe.name)}
+                                   style={Styles.search_result_image}/>
+                        </Pressable>
+                        <Pressable onPress={()=>setRecipe(recipe)} style={Styles.search_result_text}>
+                        <Text >{recipe.name}</Text>
+                        </Pressable>
+                        <UpdateShoppingList newRecipe={recipe}/>
+                    </View>
+                )
                 }
             </ScrollView>
         </View>

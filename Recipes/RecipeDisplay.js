@@ -27,27 +27,31 @@ export const RecipeDisplay = ({recipe, day}) => {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => setModalVisible(false)}>
-            <View style={{backgroundColor: "white", flex: 1}}>
-                <Image source={image} style={Styles.recipe_image}/>
-                <Pressable style={Styles.backButton} onPress={() => setModalVisible(false)}>
-                    <Ionicons name="chevron-back-outline" size={32} color="black"/>
-                    <Text style={{fontSize: 16}}>All Recipes</Text>
-                </Pressable>
-                <ScrollView style={Styles.recipe_scrollView}>
-                    <Text style={Styles.recipe_name}>{recipe.name}</Text>
-                    <Text style={Styles.h2}>Ingredients</Text>
-                    {recipe.ingredients.map((e, i) => {
-                        return <Text key={i} style={Styles.recipe_ingredient}>
-                            {e.quantity} {e.name}
-                        </Text>
-                    })}
-                    <Text style={Styles.h2}>Recipe</Text>
-                    {recipe.steps.map((e, i) => {
-                        return <Text key={i} style={Styles.recipe_step}>{e}</Text>
-                    })}
-                </ScrollView>
-            </View>
+            <Recipe recipe={recipe} image={image}/>
+            <Pressable style={Styles.backButton} onPress={() => setModalVisible(false)}>
+                <Ionicons name="chevron-back-outline" size={32} color="black"/>
+                <Text style={{fontSize: 16}}>All Recipes</Text>
+            </Pressable>
         </Modal>
 
     </>
+}
+
+export const Recipe = ({recipe,image}) => {
+    return <View style={{backgroundColor: "white", flex: 1}}>
+        <Image source={image} style={Styles.recipe_image}/>
+        <ScrollView style={Styles.recipe_scrollView}>
+            <Text style={Styles.recipe_name}>{recipe.name}</Text>
+            <Text style={Styles.h2}>Ingredients</Text>
+            {recipe.ingredients.map((e, i) => {
+                return <Text key={i} style={Styles.recipe_ingredient}>
+                    {e.quantity} {e.name}
+                </Text>
+            })}
+            <Text style={Styles.h2}>Recipe</Text>
+            {recipe.steps.map((e, i) => {
+                return <Text key={i} style={Styles.recipe_step}>{e}</Text>
+            })}
+        </ScrollView>
+    </View>
 }
