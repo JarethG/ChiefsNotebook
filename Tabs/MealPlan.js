@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import { FlatList, View} from "react-native";
+import {FlatList, Text, View} from "react-native";
 import {Styles} from "../Styles";
 import * as React from "react";
 import MealPlanContext, {StoreAsyncData} from "./MealPlanContext";
@@ -29,9 +29,13 @@ export function MealPlan() {
 
     return (
         <View style={Styles.background}>
+            {meals.every(e=> e==undefined) ?
+                <Text style={{alignSelf:"center"}}>You have no meals selected, try finding some in the Browse tab below.</Text>
+                :
                 <FlatList data={meals} keyExtractor={(item) => item} style={{width: "100%"}}
                           keyExtractor={(item, index) => index}
-                          renderItem={({item, index}) =><RenderItem recipe={item} index={index} key={index}/>}/>
+                          renderItem={({item, index}) => <RenderItem recipe={item} index={index} key={index}/>}/>
+            }
         </View>
     );
 }

@@ -70,10 +70,15 @@ const Search = () => {
     )
 }
 
-export const SearchResults = ({searchString}) => {
+export const SearchResults = ({searchString,filter}) => {
+
+
 
     useEffect(() => {
-        setSuggestions(getRecipeMatches(searchString));
+        if(filter == "names")
+            setSuggestions(getRecipeMatches(searchString));
+        else
+            setSuggestions(getRecipeFromIngredient(searchString))
     }, [searchString])
 
     const [suggestions, setSuggestions] = useState([])
@@ -84,6 +89,14 @@ export const SearchResults = ({searchString}) => {
 
     function getRecipeMatches(s) {
         return recipes.filter(recipe => recipe.name.toLowerCase().includes(s.toLowerCase()))
+    }
+
+    function getRecipeFromIngredient(s) {
+        return recipes.filter(recipe =>
+            recipe.ingredients.some(ingredient=>
+                ingredient.name.toLowerCase().includes(s.toLowerCase())
+            )
+        )
     }
 
     return (
